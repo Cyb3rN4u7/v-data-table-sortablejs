@@ -4,35 +4,46 @@
 <head>
   <title>Welcome to Vue</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.1/Sortable.min.js"></script>
-  
+
+  <style>
+    tr {
+      cursor: grab;
+    }
+  </style>
 </head>
 
 <body>
   <div id="app">
     <v-container>
-      <h2 class="text-xs-center mt-3">Drag n Drop</h2>
-      <v-layout mt-5 justify-center>
+      <h1 class="text-xs-center mt-3">Drag n Drop</h1>
+      <p style="margin-top: 1em;">This is a demo making a data table in vuetify 2.x draggable, feel free to explore :)</p>
+      <v-layout style="margin-top: 3em;" mt-5 justify-center>
         <v-flex sm8>
-            <v-data-table :key="reRender" :headers="headers" :items="formItems" class="elevation-1">
-                <template slot="items" slot-scope="props">
-                  <td class="text-xs-left">{{ props.item.name }}</td>
-                  <td class="text-xs-left">{{ props.item.score }}</td>
-                </template>
-              </v-data-table>
+          <v-data-table :key="reRender" :headers="headers" :items="formItems" class="elevation-1">
+            <template slot="items" slot-scope="props">
+              <td class="text-xs-left">{{ props.item.name }}</td>
+              <td class="text-xs-left">{{ props.item.score }}</td>
+            </template>
+          </v-data-table>
         </v-flex>
+      </v-layout>
 
-        <v-flex sm4>
-          {{JSON.stringify(dragNdrop, null,'\n')}}
-          <p ></p>
+      <v-layout style="margin-top: 5em;">
+
+        <v-flex sm12>
+          <h2>The items in the "dragNdrop" array</h2>
+          <p>
+            {{JSON.stringify(dragNdrop, null,'\n')}}
+          </p>
         </v-flex>
-
       </v-layout>
 
     </v-container>
@@ -43,39 +54,40 @@
   <script>
     var app = new Vue({
       el: '#app',
+      vuetify: new Vuetify(),
       data: {
         reRender: 0,
         dragNdrop: [],
         headers: [{
-            text: "Name",
-            align: "left",
-            sortable: false,
-            value: "name"
-          },
-          {
-            text: "Score",
-            align: "left",
-            sortable: false,
-            value: "score"
-          },
+          text: "Name",
+          align: "left",
+          sortable: false,
+          value: "name"
+        },
+        {
+          text: "Score",
+          align: "left",
+          sortable: false,
+          value: "score"
+        },
         ],
         formItems: [{
-            name: "John",
-            score: 20
-          },
-          {
-            name: "Dan",
-            score: 70
-          },
-          {
-            name: "Maria",
-            score: 50
-          },
+          name: "John",
+          score: 20
+        },
+        {
+          name: "Dan",
+          score: 70
+        },
+        {
+          name: "Maria",
+          score: 50
+        },
         ]
       },
       methods: {
         initSortable() {
-          let table = document.querySelector(".v-datatable tbody");
+          let table = document.querySelector("tbody");
           const _self = this;
           // this way we avoid data binding
           _self.dragNdrop = JSON.parse(JSON.stringify(_self.formItems));
@@ -94,7 +106,7 @@
             }
           });
         },
-    
+
       },
       mounted() {
         console.log("mounted");
